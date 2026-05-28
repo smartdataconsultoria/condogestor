@@ -703,8 +703,8 @@ function renderCards(){
 
     return `<div class="morador-card" onclick="abrirModal('${m.id}')">
       <div class="card-top">
-        <div class="avatar" style="background:${avatarBg}">
-          ${m.foto_url ? `<img src="${m.foto_url}" alt="${m.nome}"/>` : iniciais(m.nome)}
+        <div class="avatar" style="background:${m.foto_url ? 'transparent' : avatarBg}">
+          ${m.foto_url ? `<img src="${m.foto_url}" alt="${m.nome}" onerror="this.parentElement.style.background='${avatarBg}';this.outerHTML='${iniciais(m.nome)}'"/>` : iniciais(m.nome)}
         </div>
         <div class="card-info">
           <div class="card-nome" title="${m.nome}">${m.nome}</div>
