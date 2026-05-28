@@ -1051,6 +1051,13 @@ async function salvar(){
       };
       if(emailVal) patchData.email = emailVal;
 
+      // Upload foto se selecionada
+      if(_fotoFile){
+        btn.textContent='Enviando foto...';
+        const fotoUrl = await uploadFoto(_fotoFile, _editId);
+        if(fotoUrl) patchData.foto_url = fotoUrl;
+      }
+
       const res  = await fetch(`${SUPA_URL}/rest/v1/usuarios?id=eq.${_editId}`,{
         method:'PATCH', headers:{...h,'Prefer':'return=representation'}, body:JSON.stringify(patchData)
       });
@@ -1207,6 +1214,17 @@ async function salvar(){
       const msg = (Array.isArray(json)?json[0]:json)?.message || JSON.stringify(json);
       showAlert(`❌ Conta criada mas erro ao salvar dados: ${msg}`, 'error');
       btn.disabled=false; btn.textContent='💾 Salvar Morador'; return;
+    }
+
+    // Upload foto se selecionada
+    if(_fotoFile){
+      btn.textContent='Enviando foto...';
+      const fotoUrl = await uploadFoto(_fotoFile, authId);
+      if(fotoUrl){
+        await fetch(`${SUPA_URL}/rest/v1/usuarios?id=eq.${authId}`,{
+          method:'PATCH', headers:h, body:JSON.stringify({foto_url: fotoUrl})
+        });
+      }
     }
 
     showAlert('✅ Morador cadastrado com acesso ao portal!');
