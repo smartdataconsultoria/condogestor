@@ -94,9 +94,9 @@ main{width:100%;padding:0}
 
 /* MÊS NAV */
 .mes-nav{display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.mes-btn{background:var(--white);border:1px solid var(--border);color:var(--text-light);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.mes-btn{background:var(--white);border:1px solid var(--border);color:var(--text-mid);width:34px;height:34px;border-radius:10px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.2s;font-weight:700}
 .mes-btn:hover{background:var(--border);color:var(--text-dark)}
-.mes-atual{font-size:17px;font-weight:700;min-width:180px;text-align:center}
+.mes-atual{font-size:16px;font-weight:700;min-width:160px;text-align:center;color:var(--navy);background:var(--off-white);border:1px solid var(--border);border-radius:10px;padding:7px 16px}
 
 /* CARDS RESUMO */
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;transition:.3s}
@@ -328,7 +328,7 @@ main{width:100%;padding:0}
 
 
   /* -- Seletor de mês -- */
-  .mes-nav { display:flex; align-items:center; gap:12px; justify-content:center; margin-bottom:1.25rem; }
+  .mes-nav { display:flex; align-items:center; gap:8px; margin-bottom:0; }
   .mes-btn {
     background: var(--white) !important;
     border: 1.5px solid var(--border) !important;
@@ -343,16 +343,7 @@ main{width:100%;padding:0}
     color: var(--navy) !important;
     background: var(--off-white) !important;
   }
-  .mes-atual {
-    font-size: 1rem !important;
-    font-weight: 700 !important;
-    color: var(--navy) !important;
-    background: var(--white) !important;
-    border: 1.5px solid var(--border) !important;
-    border-radius: 20px !important;
-    padding: 6px 20px !important;
-    min-width: 160px; text-align: center;
-  }
+  .mes-atual { font-size: 15px !important; font-weight: 700 !important; color: var(--navy) !important; }
 
   /* -- FAB -- */
   .fab {
@@ -589,10 +580,11 @@ main{width:100%;padding:0}
   /* Search box mais clean */
   .search-box input {
     border-radius: 10px !important;
-    padding: 8px 16px 8px 38px !important;
+    padding: 9px 16px 9px 38px !important;
     font-size: 13px !important;
     font-weight: 500 !important;
-    border-color: var(--border) !important;
+    border: 1px solid var(--border) !important;
+    background: var(--off-white) !important;
   }
   .search-box input:focus { 
     border-color: var(--navy) !important; 
@@ -638,6 +630,98 @@ main{width:100%;padding:0}
 
   /* Remover espaço fantasma entre filtros e tabela */
   .table-wrap { margin-top: 0 !important; }
+
+  /* ── LAYOUT OTIMIZADO ── */
+
+  /* Botões do topo */
+  .btn-topo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+    white-space: nowrap;
+  }
+
+  /* Barra de controles unificada */
+  .barra-controles {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(11,31,58,.04);
+  }
+  .barra-linha1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+
+  /* Botão tipo seletor */
+  .btn-tipo-sel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: 10px;
+    padding: 9px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: .2s;
+    white-space: nowrap;
+  }
+  .btn-tipo-sel:hover { background: #d4920f; }
+
+  /* Botão categoria */
+  .btn-cat-sel {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--off-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-mid);
+    cursor: pointer;
+    font-family: inherit;
+    transition: .2s;
+    white-space: nowrap;
+  }
+  .btn-cat-sel:hover { border-color: var(--gold); color: var(--amber); }
+
+  /* Opções do dropdown tipo */
+  .tipo-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .15s;
+    font-size: 13px;
+    color: var(--text-dark);
+  }
+  .tipo-opt:hover { background: var(--off-white); }
+
+  /* page-header sem margin-bottom extra */
+  .page-header { margin-bottom: 20px !important; }
+  .page-title { font-size: 24px !important; font-weight: 800 !important; }
+
+  /* Cards com menos gap após o cardsWrap aparecer */
+  #cardsWrap { margin-bottom: 16px !important; }
 </style>
 </head>
 <body>
@@ -682,17 +766,25 @@ main{width:100%;padding:0}
 <main>
   <div class="alert" id="alert"></div>
 
-  <div class="page-header">
+  <!-- HEADER UNIFICADO -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:16px;flex-wrap:wrap;">
     <div class="page-title">Transações</div>
+    <!-- Nav de mês centralizada -->
+    <div class="mes-nav" style="margin-bottom:0">
+      <button class="mes-btn" onclick="mudarMes(-1)">‹</button>
+      <div class="mes-atual" id="mesAtual">—</div>
+      <button class="mes-btn" onclick="mudarMes(1)">›</button>
+    </div>
+    <!-- Botões de ação -->
     <div style="display:flex;gap:8px;align-items:center">
-      <button onclick="window._baixarModelo()" style="display:flex;align-items:center;gap:7px;background:var(--border);border:1px solid #3a3d4e;color:var(--text-light);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='#3a3d4e';this.style.color='#94a3b8'">
+      <button onclick="window._baixarModelo()" class="btn-topo" style="background:var(--off-white);border:1px solid var(--border);color:var(--text-mid);" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-mid)'">
         📥 Baixar Modelo
       </button>
-      <button onclick="window._abrirImportar()" style="display:flex;align-items:center;gap:7px;background:var(--blue)20;border:1px solid var(--blue)40;color:var(--blue);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s" onmouseover="this.style.background='var(--blue)30'" onmouseout="this.style.background='var(--blue)20'">
-        📤 Importar Planilha
+      <button onclick="window._abrirImportar()" class="btn-topo" style="background:#eff6ff;border:1px solid #bfdbfe;color:var(--blue);" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
+        📤 Importar
       </button>
-      <button onclick="window._exportarExcel()" style="display:flex;align-items:center;gap:7px;background:#22c55e20;border:1px solid #22c55e40;color:#22c55e;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s" onmouseover="this.style.background='#22c55e30'" onmouseout="this.style.background='#22c55e20'">
-        📊 Exportar Mês
+      <button onclick="window._exportarExcel()" class="btn-topo" style="background:#f0fdf4;border:1px solid #86efac;color:#16a34a;" onmouseover="this.style.background='#dcfce7'" onmouseout="this.style.background='#f0fdf4'">
+        📊 Exportar
       </button>
     </div>
   </div>
@@ -747,13 +839,6 @@ main{width:100%;padding:0}
     <button class="fab" id="fabBtn" onclick="toggleFab(event)">
       <span class="fab-icon">+</span>
     </button>
-  </div>
-
-  <!-- MÊS -->
-  <div class="mes-nav">
-    <button class="mes-btn" onclick="mudarMes(-1)">‹</button>
-    <div class="mes-atual" id="mesAtual">—</div>
-    <button class="mes-btn" onclick="mudarMes(1)">›</button>
   </div>
 
   <!-- TIPO DROPDOWN -->
