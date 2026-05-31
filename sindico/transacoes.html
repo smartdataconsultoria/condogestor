@@ -141,7 +141,7 @@ main{width:100%;padding:0}
 .btn-row{background:none;border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;transition:.2s;color:var(--text-light)}
 .btn-row:hover{background:var(--border);color:var(--text-dark)}
 .btn-row.del:hover{background:#ef444420;color:#ef4444;border-color:#ef4444}
-.empty-state{text-align:center;padding:60px 20px;color:#4a5568;font-size:14px}
+.empty-state{text-align:center;padding:32px 20px;color:var(--text-light);font-size:14px}
 .parcela-tag{font-size:10px;background:var(--blue)20;color:var(--blue);padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:600}
 .fixa-tag{font-size:10px;background:#a855f720;color:#a855f7;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:600}
 .pdf-tag{font-size:10px;background:var(--gold)20;color:var(--gold);padding:2px 6px;border-radius:8px;margin-left:4px;cursor:pointer}
@@ -602,11 +602,8 @@ main{width:100%;padding:0}
   /* Saldo do mês: positivo = verde, negativo = vermelho */
   .card-val.blue { color: #2563EB !important; }
 
-  /* Tabela: header sticky */
+  /* Tabela: header fixo sem sticky (evita faixa branca) */
   .table-head {
-    position: sticky;
-    top: 64px;
-    z-index: 10;
     border-radius: 0 !important;
   }
 
@@ -631,13 +628,16 @@ main{width:100%;padding:0}
 
   /* Empty state */
   .empty-state {
-    padding: 80px 20px !important;
+    padding: 40px 20px !important;
     font-size: 15px !important;
     color: var(--text-light) !important;
   }
 
   /* Filters: remover border/padding quando invisível */
   .filters:empty { display: none !important; }
+
+  /* Remover espaço fantasma entre filtros e tabela */
+  .table-wrap { margin-top: 0 !important; }
 </style>
 </head>
 <body>
@@ -815,7 +815,7 @@ main{width:100%;padding:0}
  <div onclick="ordenarPor('situacao')" style="cursor:pointer">Situação<span id="sortIcon-situacao"></span></div>
  <div></div>
  </div>
- <div id="listaTransacoes"><div class="empty-state">⏳ Carregando...</div></div>
+ <div id="listaTransacoes"><div class="loading-state" style="padding:20px;font-size:13px;color:var(--text-light)">⏳ Carregando...</div></div>
   </div>
 </main>
 
