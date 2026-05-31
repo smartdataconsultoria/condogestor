@@ -537,11 +537,11 @@ main{width:100%;padding:0}
 
   /* Filtros de status: layout mais compacto */
   .filters { 
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px 16px;
-    gap: 6px !important;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    gap: 8px !important;
     margin-bottom: 16px !important;
     display: flex !important;
     flex-wrap: wrap !important;
@@ -635,6 +635,9 @@ main{width:100%;padding:0}
     font-size: 15px !important;
     color: var(--text-light) !important;
   }
+
+  /* Filters: remover border/padding quando invisível */
+  .filters:empty { display: none !important; }
 </style>
 </head>
 <body>
@@ -787,7 +790,7 @@ main{width:100%;padding:0}
   </div>
 
   <!-- CARDS DINÂMICOS -->
-  <div class="cards" id="cardsWrap" style="margin-bottom:16px"></div>
+  <div class="cards" id="cardsWrap" style="margin-bottom:0;display:none"></div>
 
   <!-- FILTROS SECUNDÁRIOS -->
   <div class="filters" style="margin-bottom:16px">
@@ -1443,6 +1446,8 @@ function renderCards(){
 
   const wrap = document.getElementById('cardsWrap');
   if(!wrap) return;
+  wrap.style.display = 'grid';
+  wrap.style.marginBottom = '24px';
 
   if(_tipoFiltro==='despesa'){
     wrap.style.gridTemplateColumns='repeat(3,1fr)';
