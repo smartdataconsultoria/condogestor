@@ -66,7 +66,7 @@
   .alert.error   { background: #fff1f2; border-color: var(--red-border); color: var(--red); }
 
   /* ── STATS ── */
-  .stats { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; margin-bottom: 22px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 22px; }
   .stat { background: var(--white); border: 2px solid var(--border); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; transition: .2s; }
   .stat:hover { border-color: rgba(232,163,32,.5); box-shadow: 0 4px 14px rgba(0,0,0,.06); }
   .stat.active { border-color: var(--gold); background: var(--amber-bg); }
@@ -579,33 +579,63 @@ async function loadDocs(){
 
 // ── STATS ─────────────────────────────────────────────────
 function renderStats(){
+  const cntAta      = _docs.filter(d=>d.categoria==='Ata').length;
+  const cntContrato = _docs.filter(d=>d.categoria==='Contrato').length;
+  const cntNF       = _docs.filter(d=>d.categoria==='Nota Fiscal').length;
+  const cntOutros   = _docs.filter(d=>!['Ata','Contrato','Nota Fiscal'].includes(d.categoria)).length;
+
   document.getElementById('stTodos').textContent    = _docs.length;
-  document.getElementById('stAta').textContent      = _docs.filter(d=>d.categoria==='Ata').length;
-  document.getElementById('stContrato').textContent = _docs.filter(d=>d.categoria==='Contrato').length;
-  document.getElementById('stNF').textContent       = _docs.filter(d=>d.categoria==='Nota Fiscal').length;
-  document.getElementById('stOutros').textContent   = _docs.filter(d=>!['Ata','Contrato','Nota Fiscal'].includes(d.categoria)).length;
+  document.getElementById('stAta').textContent      = cntAta;
+  document.getElementById('stContrato').textContent = cntContrato;
+  document.getElementById('stNF').textContent       = cntNF;
+  document.getElementById('stOutros').textContent   = cntOutros;
+
+  // Ocultar stat cards com zero (exceto "Todos")
+  document.getElementById('stAta').closest('.stat').style.display      = cntAta      > 0 ? '' : 'none';
+  document.getElementById('stContrato').closest('.stat').style.display = cntContrato > 0 ? '' : 'none';
+  document.getElementById('stNF').closest('.stat').style.display       = cntNF       > 0 ? '' : 'none';
+  document.getElementById('stOutros').closest('.stat').style.display   = cntOutros   > 0 ? '' : 'none';
 }
 
 function renderSidebar(){
   const cnt = cat => _docs.filter(d=>d.categoria===cat).length;
-  document.getElementById('sbCTodos').textContent    = _docs.length;
-  document.getElementById('sbCAta').textContent      = cnt('Ata');
-  document.getElementById('sbCContrato').textContent = cnt('Contrato');
-  document.getElementById('sbCNF').textContent       = cnt('Nota Fiscal');
-  document.getElementById('sbCCom').textContent      = cnt('Comunicado');
-  document.getElementById('sbCConv').textContent     = cnt('Convenção');
-  document.getElementById('sbCReg').textContent      = cnt('Regimento');
-  document.getElementById('sbCFin').textContent      = cnt('Financeiro');
-  document.getElementById('sbCOut').textContent      = cnt('Outro');
-  document.getElementById('sbCProp').textContent     = cnt('Proposta');
-  // campos extras não existem na tabela — zerar
-  document.getElementById('sbAPub').textContent  = '—';
-  document.getElementById('sbADest').textContent = '—';
-  document.getElementById('sbAVenc').textContent = '—';
-  document.getElementById('sbAExp').textContent  = '—';
-  document.getElementById('sbAPend').textContent = '—';
-  document.getElementById('sbAAprov').textContent= '—';
-  document.getElementById('sbARej').textContent  = '—';
+
+  const catMap = {
+    sbCAta: cnt('Ata'), sbCContrato: cnt('Contrato'), sbCNF: cnt('Nota Fiscal'),
+    sbCCom: cnt('Comunicado'), sbCConv: cnt('Conv\u00e3o'), sbCReg: cnt('Regimento'),
+    sbCFin: cnt('Financeiro'), sbCOut: cnt('Outro'), sbCProp: cnt('Proposta')
+  };
+
+  document.getElementById('sbCTodos').textContent = _docs.length;
+
+  Object.entries(catMap).forEach(([id, count]) => {
+    document.getElementById(id).textContent = count;
+    const btn = document.getElementById(id).closest('.cat-btn');
+    if(btn) btn.style.display = count > 0 ? '' : 'none';
+  });
+
+  // Seção Situação/Propostas — campos não existem na tabela ainda: ocultar botões
+  ['sbAPub','sbADest','sbAVenc','sbAExp','sbAPend','sbAAprov','sbARej'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.textContent = '—';
+    const btn = el ? el.closest('.cat-btn') : null;
+    if(btn) btn.style.display = 'none';
+  });
+
+  // Ocultar separadores e h3 de seções completamente vazias
+  const fs = document.querySelector('.filter-sidebar');
+  if(!fs) return;
+  Array.from(fs.children).forEach(el => {
+    if(el.tagName === 'H3' || el.classList.contains('filter-sep')) {
+      let next = el.nextElementSibling;
+      let hasVisible = false;
+      while(next && next.tagName !== 'H3' && !next.classList.contains('filter-sep')) {
+        if(next.classList.contains('cat-btn') && next.style.display !== 'none') { hasVisible = true; break; }
+        next = next.nextElementSibling;
+      }
+      el.style.display = hasVisible ? '' : 'none';
+    }
+  });
 }
 
 // ── FILTROS ───────────────────────────────────────────────
